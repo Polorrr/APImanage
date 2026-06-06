@@ -197,15 +197,12 @@ cp .env.example .env
 docker compose up -d
 ```
 
-### 第二步：登录管理后台
+### 第二步：注册账号并登录
 
-启动后访问管理后台，使用默认管理员账号登录：
+启动后访问前端页面，点击注册创建自己的账号，然后登录管理后台：
 
-- 地址：`http://localhost:8000/admin/`
-- 邮箱：`admin@aimanage.com`
-- 密码：`admin123456`
-
-> ⚠️ 生产环境请务必修改默认密码！
+- 前端：`http://localhost:3000`
+- 后端：`http://localhost:8000`
 
 ### 第三步：配置供应商
 
@@ -404,14 +401,9 @@ docker compose up -d
 | 后端 API | `http://localhost:8000/api/` |
 | 管理后台 | `http://localhost/admin/` |
 
-### 默认管理员账号（开发演示）
+### 注册与登录
 
-| 项目 | 值 |
-|------|------|
-| 邮箱 | `admin@aimanage.com` |
-| 密码 | `admin123456` |
-
-> ⚠️ 生产环境请务必修改默认密码，并使用环境变量或密钥管理服务管理凭据。
+启动服务后，访问前端页面自行注册账号并登录即可。
 
 ---
 
@@ -484,7 +476,6 @@ http://你的网关地址/api/gateway/v1/chat/completions
 
 ### Q：生产环境需要注意什么？
 
-- 修改默认管理员密码
 - 将 `DEBUG` 设为 `False`
 - 配置 `ALLOWED_HOSTS`
 - 使用 Gunicorn 替代 `runserver`
@@ -696,221 +687,12 @@ cp .env.example .env
 docker compose up -d
 ```
 
-### Step 2: Log in to the Admin Panel
+### Step 2: Register & Log in
 
-Access the admin panel and log in with the default admin account:
+After startup, visit the frontend page to register your own account and log in:
 
-- URL: `http://localhost:8000/admin/`
-- Email: `admin@aimanage.com`
-- Password: `admin123456`
-
-> ⚠️ Change the default password in production!
-
-### Step 3: Configure Providers
-
-Add your LLM provider information in the admin panel:
-
-- Provider name
-- API base URL
-- API Key (stored encrypted)
-
-The system supports one-click auto-detection of provider connectivity.
-
-### Step 4: Create API Keys
-
-Create dedicated API Keys for your agents/projects:
-
-- Set key name (e.g., "Production", "Staging")
-- Configure permissions (read/write)
-- Set rate limits (requests per minute)
-
-### Step 5: Switch Your Endpoint
-
-Replace the LLM API endpoint in your agent/application with your gateway address:
-
-```
-# Before
-https://api.openai.com/v1/chat/completions
-
-# After
-http://your-gateway/api/gateway/v1/chat/completions
-```
-
-### Step 6: Monitor Your Costs
-
-After switching, all calls are automatically recorded. View in the dashboard:
-
-- Real-time cost trends
-- Model/Agent distribution
-- Call log details
-- Alert trigger history
-
----
-
-## 🧱 Tech Stack Overview
-
-### Frontend
-
-| Type | Technology | Description |
-|------|-----------|-------------|
-| Framework | React 18 | SPA core |
-| Language | TypeScript | Type safety |
-| Build | Vite | Fast dev/build workflow |
-| Styling | TailwindCSS | Rapid UI development |
-| Charts | ECharts | Cost and call trend visualization |
-| Routing | React Router | Page routing |
-| HTTP | Axios | API communication |
-
-### Backend
-
-| Type | Technology | Description |
-|------|-----------|-------------|
-| Framework | Django 5 | Main backend framework |
-| API | Django REST Framework | RESTful API development |
-| Auth | JWT (simplejwt) | Authentication and permissions |
-| Gateway | Custom gateway layer | Proxy LLM calls and record traces |
-| HTTP | httpx / requests | Upstream request forwarding |
-| Token | tiktoken | OpenAI model token counting |
-| Encryption | cryptography | API Key encryption at rest |
-
-### Storage & Middleware
-
-| Type | Technology | Description |
-|------|-----------|-------------|
-| Database | MySQL 8 | Core business data and call logs |
-| Cache / Rate Limit | Redis | Performance and request throttling |
-| Async Tasks | Celery | Scheduled analytics and alerts |
-| Scheduler | django-celery-beat | Periodic task orchestration |
-
-### Deployment & Runtime
-
-| Type | Technology | Description |
-|------|-----------|-------------|
-| Orchestration | Docker Compose | Unified service startup |
-| Reverse Proxy | Nginx | Unified entry routing |
-| WSGI Server | Gunicorn | Production-grade Python server |
-| Startup Scripts | `start.bat` / `start.sh` | Fast local startup |
-
----
-
-## 🛠️ Architecture
-
-```
-┌─────────────────────────────────────────────────┐
-│                   Frontend                       │
-│     React 18 + TypeScript + Vite + TailwindCSS   │
-├─────────────────────────────────────────────────┤
-│               Nginx (Reverse Proxy)              │
-│      Route: /api/gateway/* → Gateway             │
-│      Route: /api/*        → DRF API              │
-│      Route: /*            → React Frontend       │
-├─────────────────────────────────────────────────┤
-│                  API / Gateway                   │
-│  Django 5 + DRF + JWT Auth                       │
-│  Gateway: verify key → rate limit → proxy → log  │
-├─────────────────────────────────────────────────┤
-│                 Async Task Layer                  │
-│         Celery Worker + django-celery-beat        │
-├─────────────────────────────────────────────────┤
-│                   Storage                        │
-│        MySQL 8 (data) + Redis (cache/limits)     │
-├─────────────────────────────────────────────────┤
-│               Deploy / Runtime                   │
-│       Docker Compose + Nginx + Gunicorn           │
-└─────────────────────────────────────────────────┘
-```
-
----
-
-## 📂 Core File Structure
-
-```text
-aimanage/
-├── backend/                        # Django backend & gateway
-│   ├── config/
-│   │   ├── settings.py             # Django global config
-│   │   ├── urls.py                 # Root URL routing
-│   │   └── celery.py               # Celery config
-│   ├── apps/
-│   │   ├── users/                  # User module
-│   │   ├── gateway/                # LLM gateway (core)
-│   │   ├── pricing/                # Pricing management
-│   │   ├── stats/                  # Analytics
-│   │   └── alerts/                 # Budget alerts
-│   ├── utils/
-│   │   ├── token_counter.py        # Token counter
-│   │   ├── cost_calculator.py      # Cost calculator
-│   │   ├── http_client.py          # HTTP proxy client
-│   │   ├── encryption.py           # Encryption utils
-│   │   └── rate_limiter.py         # Redis rate limiter
-│   ├── requirements.txt            # Python dependencies
-│   └── Dockerfile
-├── frontend/                       # React frontend
-│   ├── src/
-│   │   ├── pages/                  # Page components
-│   │   │   ├── Dashboard.tsx       # Cost dashboard (core)
-│   │   │   ├── CallLogs.tsx        # Call logs
-│   │   │   ├── ApiKeys.tsx         # Key management
-│   │   │   ├── Pricing.tsx         # Pricing config
-│   │   │   ├── Detection.tsx       # Auto detection
-│   │   │   └── Alerts.tsx          # Alert settings
-│   │   ├── components/             # Shared components
-│   │   ├── api/                    # API request layer
-│   │   └── styles/                 # Global styles
-│   ├── package.json                # Node dependencies
-│   └── Dockerfile
-├── nginx/
-│   └── nginx.conf                  # Nginx config
-├── scripts/
-│   ├── init_db.sql                 # DB initialization
-│   └── seed_pricing.py             # Pricing seed data
-├── docker-compose.yml              # Container orchestration
-├── start.bat                       # Windows one-click start
-├── start.sh                        # Mac/Linux one-click start
-├── .env.example                    # Environment template
-├── Makefile                        # Shortcut commands
-├── ARCHITECTURE.md                 # Architecture docs
-└── sdk/                            # Python SDK (optional)
-```
-
----
-
-## 🚀 Quick Start
-
-### Option A: One-Click Script (Easiest)
-
-```bash
-# Windows
-Double-click start.bat
-
-# Mac/Linux
-chmod +x start.sh && ./start.sh
-```
-
-### Option B: Docker Compose (Recommended)
-
-```bash
-cp .env.example .env
-docker compose up -d
-```
-
-After startup:
-
-| Service | URL |
-|---------|-----|
-| Frontend (Docker) | `http://localhost` |
-| Frontend (Script) | `http://localhost:3000` |
-| Backend API | `http://localhost:8000/api/` |
-| Admin Panel | `http://localhost/admin/` |
-
-### Default Admin Account (Dev Demo)
-
-| Item | Value |
-|------|-------|
-| Email | `admin@aimanage.com` |
-| Password | `admin123456` |
-
-> ⚠️ Always change the default password in production. Use env vars or a secrets manager.
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:8000`
 
 ---
 
@@ -983,7 +765,6 @@ The system supports two data sources: actual token counts returned by the provid
 
 ### Q: What do I need to change for production?
 
-- Change the default admin password
 - Set `DEBUG = False`
 - Configure `ALLOWED_HOSTS`
 - Use Gunicorn instead of `runserver`
