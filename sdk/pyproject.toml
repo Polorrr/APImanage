@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "aimanage"
+version = "0.1.0"
+description = "AI 成本管理 SDK — 自动追踪 LLM 调用的 token 和费用"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "Polor"},
+]
+dependencies = [
+    "requests>=2.20.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]

@@ -1,0 +1,28 @@
+# Django core
+Django==5.2.14
+djangorestframework==3.16.0
+django-cors-headers==4.7.0
+
+# Database
+pymysql==1.1.1
+
+# Task queue
+celery==5.5.2
+django-celery-beat==2.8.1
+
+# HTTP client
+httpx==0.28.1
+requests==2.32.3
+
+# OpenAI SDK (for gateway proxy)
+openai>=1.50.0
+
+# Token counting
+tiktoken==0.9.0
+
+# Encryption
+cryptography==45.0.3
+
+# Utilities
+python-dotenv==1.1.0
+pytz==2024.2
