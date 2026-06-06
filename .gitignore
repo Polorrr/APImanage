@@ -78,3 +78,5 @@ sdk_key.txt
 # Other git repos inside project
 backend/src/hermes-agent-self-evolution/.git/
 
+
+zhipu-pricing.csv
