@@ -135,43 +135,43 @@ Built-in startup scripts reduce first-run friction:
 
 One-stop view of cost trends, request volume, and key metric cards. Ideal for daily/weekly review.
 
-![Cost Dashboard](./1.png)
+![Cost Dashboard](./docs/1.png)
 
 ### 2. Cost Analysis
 
 Break down cost by time dimension to quickly locate peaks, drops, and abnormal periods.
 
-![Cost Analysis](./2.png)
+![Cost Analysis](./docs/2.png)
 
 ### 3. Call Logs
 
 Inspect each LLM call detail — model, latency, tokens, and cost — for issue tracing and accountability.
 
-![Call Logs](./3.png)
+![Call Logs](./docs/3.png)
 
 ### 4. API Key Management
 
 Create isolated keys for teams/projects/environments with permission and rate-limit controls.
 
-![API Key Management](./4.png)
+![API Key Management](./docs/4.png)
 
 ### 5. Pricing Configuration
 
 Maintain model pricing policies and customize billing rules for different providers.
 
-![Pricing Configuration](./5.png)
+![Pricing Configuration](./docs/5.png)
 
 ### 6. Auto Detection
 
 One-click check of provider connectivity to diagnose API address, key, network, and permission issues.
 
-![Auto Detection](./6.png)
+![Auto Detection](./docs/6.png)
 
 ### 7. Alert Settings
 
 Define alert rules and get notified when costs exceed thresholds for budget control.
 
-![Alert Settings](./7.png)
+![Alert Settings](./docs/7.png)
 
 ---
 
